@@ -1,3 +1,4 @@
+import os
 import cv2
 from PIL import Image
 import threading
@@ -41,11 +42,11 @@ class HttpPipeline:
     def __init__(self, pipeline_register):
         self.p_reg = pipeline_register
         try:
-            host = '0.0.0.0'
-            port = 8087
+            host = os.environ['PIPELINE_HTTP_HOST']
+            port = int(os.environ['PIPELINE_HTTP_PORT'])
 
             server = ThreadedHTTPServer((host, port), CamHandler)
-            print( "server started. see: http://{0}:{1} (chrome only)".format(host, port))
+            print( "[INFO] HttpPipeline: mjpeg server started at http://{0}:{1} (chrome only)".format(host, port))
 
             server_thread = threading.Thread(target=server.serve_forever)
             server_thread.daemon = True

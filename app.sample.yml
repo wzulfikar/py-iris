@@ -9,7 +9,7 @@ frame:
   recordonstart: false
   flip:
     horizontal: false
-    vertical: false
+    vertical: true
 
 # server config (TODO)
 # server:
@@ -28,4 +28,8 @@ postgres:
   host: localhost
   port: 5434
 
-disable_pipelines: [http]
+pipeline_env:
+  http:
+    disable: false
+    host: 0.0.0.0
+    port: 8087

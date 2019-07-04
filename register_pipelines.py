@@ -1,4 +1,5 @@
 import os
+import sys
 
 # import pipeline register and event listeners
 from lib.pipeline_register import PipelineRegister
@@ -38,13 +39,19 @@ def register(conf: dict, runtime_vars: dict, video_capture):
         'key_press': (KeyPressPipeline, storage['screenshots']),
     }
 
-    if 'disable_pipelines' in conf:
-        for disable_pipeline in conf['disable_pipelines']:
-            if disable_pipeline in pipelines:
-                del pipelines[disable_pipeline]
-                print('[INFO] pipeline disabled:', disable_pipeline)
+    if 'pipeline_env' in conf:
+        for pipeline_name in conf['pipeline_env']:
+            is_disabled = False
+            if 'disable' in conf['pipeline_env'][pipeline_name]:
+                is_disabled = conf['pipeline_env'][pipeline_name]['disable']
+
+            if pipeline_name in pipelines:
+                if is_disabled:
+                    del pipelines[pipeline_name]
+                    print('[INFO] pipeline disabled:', pipeline_name)
             else:
-                print('[WARN] could not disable invalid pipeline:', disable_pipeline)
+                print('[ERROR] invalid pipeline listed in `pipeline_env`:', pipeline_name)
+                sys.exit(1)
 
     return PipelineRegister(pipelines, register_event_listeners.register(), runtime_vars)
 

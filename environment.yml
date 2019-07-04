@@ -1,5 +1,6 @@
 name: py-iris
 channels:
-    - conda-forge
+  - defaults
 dependencies:
-    - python==3.6.3
+  - pip=19.1.1=py36_0
+  - python=3.6.3
