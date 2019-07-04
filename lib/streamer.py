@@ -65,13 +65,13 @@ def _adjust_frame_size(video_capture, minwh, maxwh) -> ((int, int), str):
 def _configure(conf: dict, frvideo, w: int, h: int):
     # using constants from opencv3 (depends on what's installed)
     device_fps = frvideo.capture.get(cv2.CAP_PROP_FPS)
-    print("- video capture fps:", device_fps)
+    print("  - video capture fps:", device_fps)
 
     if not conf["window"]["enabled"]:
-        print("- activating facerec without window")
+        print("  - activating facerec without window")
     else:
-        print("- configuring window")
-        print("- current width x height:", w, h)
+        print("  - configuring window")
+        print("  - current width x height:", w, h)
         minsize, maxsize = "", ""
         if 'minsize' in conf['frame']:
             minsize = conf['frame']['minsize']
@@ -90,10 +90,10 @@ def _stream(video_capture = 0, config_file: str = 'app.sample.yml'):
     if not os.path.exists("./.faces"):
         os.mkdir("./.faces")
 
-    print("- configuring environment..")
+    print("  - configuring environment..")
     
     frvideo = VideoCapture(video_capture)
-    print("- using video at " + frvideo.info)
+    print("  - using video at " + frvideo.info)
 
     WINDOW_NAME = 'Video source: {}'.format(frvideo.info)
 
@@ -102,6 +102,15 @@ def _stream(video_capture = 0, config_file: str = 'app.sample.yml'):
         exit(1)
 
     conf = yaml.safe_load(open(config_file))
+
+    # expose pipeline_env from config (ie. app.yml) to
+    # env vars of `PIPELINE_{pipeline name}_{env key}`
+    for pipeline_name in conf['pipeline_env']:
+        env = conf['pipeline_env'][pipeline_name]
+        for key in env:
+            pipeline_env = 'PIPELINE_{0}_{1}'.format(pipeline_name.upper(), key.upper())
+            os.environ[pipeline_env] = str(env[key])
+
     runtime_vars = {
         'quitting': False,
         'flip_h': conf["frame"]["flip"]["horizontal"],
@@ -121,7 +130,7 @@ def _stream(video_capture = 0, config_file: str = 'app.sample.yml'):
                                         conf=conf,
                                         video_capture=frvideo.capture)
 
-    print("- recording status: {}".format(p_reg.pipelines['recorder'].isrecording))
+    print("[INFO] recording status: {}".format(p_reg.pipelines['recorder'].isrecording))
 
     print("facerec is activated")
     frame_loop.loop(frvideo, runtime_vars, p_reg)

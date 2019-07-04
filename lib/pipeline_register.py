@@ -52,7 +52,7 @@ class PipelineRegister:
                 if not hasattr(self.pipelines[name], 'defer'):
                     self.pipelines[name].defer = False
 
-                print('- pipeline {}: {}'.format(len(self.pipelines), name, fn))
+                print('  - pipeline {}: {}'.format(len(self.pipelines), name, fn))
             
             except TypeError as e:
                 has_error = True

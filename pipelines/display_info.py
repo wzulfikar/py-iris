@@ -18,7 +18,7 @@ class DisplayInfoPipeline:
         if 'recorder' in self.p_reg.pipelines:
             self._recorder = self.p_reg.pipelines['recorder']
         else:
-            print('recorder pipeline not detected: recording indicator will not be displayed')
+            print('    [INFO] recorder pipeline not detected. recording indicator will not be displayed.')
 
         self.key_hints = key_hints
         if self.key_hints is None:

@@ -29,7 +29,7 @@ class PipelineHooks:
         invalid_hooks = []
         for hook_name, listeners in self.hooks.items():
             if hasattr(self, hook_name) and callable(getattr(self, hook_name)):
-                print('- {}: {}'.format(hook_name, listeners))
+                print('  - {}: {}'.format(hook_name, listeners))
                 continue
             else:
                 invalid_hooks.append(hook_name)
@@ -65,7 +65,7 @@ class PipelineHooks:
                         face_crop: np.ndarray,
                         face_encoding: List[np.ndarray]):
         """triggered everytime an unknown face appears in frame"""
-        self._run_hooks('on_face_unknown', face_crop, face_encoding)
+        self._run_hooks(' on_face_unknown', face_crop, face_encoding)
 
         self.display_feedbacks.display('unknown_face')
 
