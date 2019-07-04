@@ -7,11 +7,11 @@ import cv2
 DEFAULT_KEY_HINTS = "q: quit, r: record, s: screenshot, v or h: flip"
 
 class DisplayInfoPipeline:
-    def __init__(self, 
-                 pipeline_register, 
+    def __init__(self,
+                 pipeline_register,
                  key_hints: str = None):
         self.p_reg = pipeline_register
-        
+
         self.process = self._display_info
 
         self._recorder = None
@@ -19,11 +19,11 @@ class DisplayInfoPipeline:
             self._recorder = self.p_reg.pipelines['recorder']
         else:
             print('recorder pipeline not detected: recording indicator will not be displayed')
-        
+
         self.key_hints = key_hints
         if self.key_hints is None:
             self.key_hints = DEFAULT_KEY_HINTS
-            
+
         self.fps_time = time.time()
         self.frame_count = 0
 
@@ -31,7 +31,7 @@ class DisplayInfoPipeline:
         seconds = time.time() - self.fps_time
         self.fps_time = time.time()
         self.p_reg.runtime_vars['current_fps'] = self.frame_count / seconds
-        print("- current fps:", self.p_reg.runtime_vars['current_fps'])
+        # print("- current fps:", self.p_reg.runtime_vars['current_fps'])
 
         self.frame_count = 0
 
@@ -74,7 +74,7 @@ class DisplayInfoPipeline:
             self.p_reg.defaults['font_scale'] - 0.1,
             self.p_reg.defaults['font_thickness'])
         textWidth = ret[0] + 6
-        keyHintsAxis = (self.p_reg.runtime_vars['framewidth'] - textWidth, 
+        keyHintsAxis = (self.p_reg.runtime_vars['framewidth'] - textWidth,
                         self.p_reg.runtime_vars['frameheight'] - 10)
         cv2.putText(frame,
                     self.key_hints,

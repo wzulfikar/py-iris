@@ -30,7 +30,7 @@ def main(path: str, profile_id: str = None):
 
     # Create a HOG face detector using the built-in dlib class
     face_detector = dlib.get_frontal_face_detector()
-    
+
     db_conn = db.open()
 
     filecount = 0
@@ -45,7 +45,7 @@ def main(path: str, profile_id: str = None):
             path = root.split(os.sep)
             for file in files:
                 _, ext = os.path.splitext(file)
-                if ext.lower() not in ['.jpg', '.jpeg']:
+                if ext.lower() not in ['.jpg', '.jpeg', '.png']:
                     print("[SKIP]", file)
                     continue
 
@@ -87,10 +87,10 @@ def _faceadd(db, face_detector, file_name, to_profile_id=None) -> bool:
         detected_faces = face_detector(image, 1)
         print("Found {} faces in the image file {}".format(
             len(detected_faces), file_name))
-        
+
         if len(detected_faces) > 0:
             cv2.namedWindow(PREVIEW_WINDOW, cv2.WINDOW_NORMAL)
-        
+
     except RuntimeError:
         print("[ERROR] failed to detect face", file_name)
         return False

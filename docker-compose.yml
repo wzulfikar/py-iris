@@ -6,9 +6,9 @@ services:
         volumes:
             - ./postgres-data:/var/lib/postgresql/data
         environment:
-            POSTGRES_PASSWORD: pass
-            POSTGRES_USER: user
             POSTGRES_DB: db
+            POSTGRES_USER: user
+            POSTGRES_PASSWORD: pass
         expose:
             - "5432"
         ports:

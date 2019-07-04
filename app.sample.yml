@@ -1,4 +1,4 @@
-window: 
+window:
   enabled: true
   demomode: false # set true to disable quit from window (only quit from console)
 
@@ -12,7 +12,7 @@ frame:
     vertical: false
 
 # server config (TODO)
-# server: 
+# server:
 #   enabled: false
 #   host: localhost
 #   port: 8888
@@ -22,8 +22,10 @@ storage: ./storage
 
 # db config (postgres) for python facerec
 postgres:
+  db: db
   user: user
   pass: pass
   host: localhost
   port: 5434
-  db: db
+
+disable_pipelines: [http]
