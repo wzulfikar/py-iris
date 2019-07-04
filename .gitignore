@@ -2,5 +2,8 @@
 .faces
 storage
 app.yml
+app.*.yml
+data
 postgres-data
+.pytest_cache/
 __pycache__
