@@ -4,6 +4,6 @@ py_postgresql==1.2.1
 halo==0.0.12
 face_recognition==1.2.2
 opencv_python==3.4.0.12
-numpy==1.14.2
+numpy==1.22.0
 Pillow==6.1.0
 PyYAML==5.1.1
